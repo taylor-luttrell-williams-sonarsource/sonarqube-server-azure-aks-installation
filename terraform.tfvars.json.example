@@ -1,0 +1,31 @@
+{
+  "resource_group_name": "my-sonarqube-rg",
+  "location": "eastus",
+  "environment": "Test",
+
+  "vnet_cidr": "10.0.0.0/16",
+  "aks_subnet_cidr": "10.0.1.0/24",
+  "appgw_subnet_cidr": "10.0.2.0/24",
+  "postgresql_subnet_cidr": "10.0.3.0/28",
+
+  "acme_email": "your-email@example.com",
+  "domain_name": "example.com",
+  "dns_resource_group_name": "my-dns-resource-group",
+  "host_name": "sonarqube",
+
+  "cluster_name": "my-sonarqube-cluster",
+  "kubernetes_version": "1.32",
+  "system_node_vm_size": "Standard_D2s_v5",
+  "node_vm_size": "Standard_D8ds_v5",
+  "sonarqube_node_count": 1,
+
+  "postgresql_server_name": "my-sonarqube-pg",
+  "db_name": "sonarqube",
+  "db_username": "sqadmin",
+  "postgresql_sku": "GP_Standard_D4ds_v4",
+  "postgresql_version": "16",
+  "postgresql_storage_mb": 131072,
+
+  "sonarqube_chart_version": "",
+  "sonarqube_namespace": "sonarqube"
+}

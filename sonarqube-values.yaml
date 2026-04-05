@@ -1,0 +1,200 @@
+# --------------------------------------------------------------------------
+# SonarQube Server Enterprise Edition Helm Chart Values (Azure AKS)
+#
+# Base values file. Dynamic values (JDBC URL, secrets, service annotations)
+# are overlaid by Terraform in sonarqube.tf via yamlencode.
+# --------------------------------------------------------------------------
+
+deploymentType: "StatefulSet"
+edition: "enterprise"
+replicaCount: 1
+revisionHistoryLimit: 10
+
+# Recreate ensures the old pod releases its ReadWriteOnce PVC before the
+# new pod starts, required for single-replica StatefulSet upgrades.
+deploymentStrategy:
+  type: Recreate
+
+# --------------------------------------------------------------------------
+# Container Image
+# --------------------------------------------------------------------------
+
+image:
+  pullPolicy: IfNotPresent
+
+# --------------------------------------------------------------------------
+# Security Context
+# --------------------------------------------------------------------------
+
+# Pod-level: sets the fsGroup so mounted volumes are accessible.
+# Safe to set alongside privileged init containers.
+securityContext:
+  fsGroup: 0
+
+# Main container only, does not affect init-sysctl or init-fs containers.
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 0
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+
+# --------------------------------------------------------------------------
+# Init Containers
+# --------------------------------------------------------------------------
+
+# Security context for general init containers (plugin installs, etc.).
+# Does not apply to initSysctl or initFs which have their own contexts.
+initContainers:
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 0
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop: ["ALL"]
+    readOnlyRootFilesystem: true
+  resources: {}
+
+# Configures kernel parameters required by Elasticsearch.
+# Must run as root (privileged).
+initSysctl:
+  enabled: true
+  vmMaxMapCount: 524288
+  fsFileMax: 131072
+  nofile: 131072
+  nproc: 8192
+  securityContext:
+    privileged: true
+    runAsUser: 0
+    readOnlyRootFilesystem: true
+
+# Sets correct ownership on the SonarQube data directory.
+initFs:
+  enabled: true
+  securityContext:
+    privileged: false
+    runAsNonRoot: false
+    runAsUser: 0
+    runAsGroup: 0
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop: ["ALL"]
+      add: ["CHOWN"]
+    readOnlyRootFilesystem: true
+
+# --------------------------------------------------------------------------
+# Elasticsearch
+# --------------------------------------------------------------------------
+
+elasticsearch:
+  configureNode: false
+  bootstrapChecks: true
+
+# --------------------------------------------------------------------------
+# Health Probes
+# --------------------------------------------------------------------------
+
+# The chart's built-in exec-based probe commands are used.
+readinessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 6
+  timeoutSeconds: 1
+
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 6
+  timeoutSeconds: 1
+
+startupProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 24
+  timeoutSeconds: 1
+
+# --------------------------------------------------------------------------
+# Resources
+# --------------------------------------------------------------------------
+
+resources:
+  limits:
+    cpu: 800m
+    memory: 6144M
+    ephemeral-storage: 512000M
+  requests:
+    cpu: 400m
+    memory: 2048M
+    ephemeral-storage: 1536M
+
+# --------------------------------------------------------------------------
+# Database: embedded PostgreSQL disabled; JDBC config applied by Terraform
+# --------------------------------------------------------------------------
+
+postgresql:
+  enabled: false
+
+# --------------------------------------------------------------------------
+# Service: LoadBalancer (annotations for pre-created tagged IP applied
+# via Terraform yamlencode overlay in sonarqube.tf)
+# --------------------------------------------------------------------------
+
+service:
+  type: LoadBalancer
+  externalPort: 9000
+  internalPort: 9000
+
+# --------------------------------------------------------------------------
+# Ingress: disabled; Application Gateway handles external HTTPS routing
+# --------------------------------------------------------------------------
+
+ingress:
+  enabled: false
+
+# --------------------------------------------------------------------------
+# Persistence: Azure Managed Disk via managed-csi storage class
+#
+# DO NOT use storageClass "azurefile" as Azure Files uses NTFS, which
+# cannot handle the Linux file permissions Elasticsearch requires.
+# --------------------------------------------------------------------------
+
+persistence:
+  enabled: true
+  storageClass: "managed-csi"
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
+# --------------------------------------------------------------------------
+# Node Scheduling: match the dedicated SonarQube node pool taint/label
+# --------------------------------------------------------------------------
+
+tolerations:
+  - key: "sonarqube"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+
+nodeSelector:
+  sonarqube: "true"
+
+# --------------------------------------------------------------------------
+# Misc
+# --------------------------------------------------------------------------
+
+podSecurityPolicy:
+  create: false
+
+networkPolicies:
+  enabled: false
+
+ca:
+  enabled: false
+
+terminationGracePeriodSeconds: 60
