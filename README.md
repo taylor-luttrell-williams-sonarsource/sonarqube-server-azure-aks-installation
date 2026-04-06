@@ -25,19 +25,21 @@ This repository contains Terraform templates for deploying SonarQube Server Ente
 ## Quick Start
 
 ```bash
-cp terraform.tfvars.json.example terraform.tfvars.json
 # Edit terraform.tfvars.json with your specific values
+cp terraform.tfvars.json.example terraform.tfvars.json
 
+# Run Terraform commands
 terraform init
 terraform plan
 terraform apply
 ```
 
-Access SonarQube at `https://sonarqube.<your-domain>`. Default login: `admin` / `admin` (change immediately).
+Access SonarQube at `https://sonarqube.<your-domain>` 
+Default login: `admin` / `admin` (change immediately)
 
 > **Certificate management is fully automated.** Terraform requests, validates, and installs a trusted Let's Encrypt certificate as part of `terraform apply`. No manual certificate steps are required - provide your domain and email, and the rest is handled automatically.
 
-## Configuration
+## Configuration Values
 
 Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the specific values for your environment:
 
@@ -81,7 +83,7 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
 - `sonarqube_chart_version` - leave empty for latest, or pin for reproducibility (e.g. `"2026.2.1"`)
 - `acme_server_url` is not shown above but can be added to switch certificate authorities. Default: Let's Encrypt production (`https://acme-v02.api.letsencrypt.org/directory`). Use the staging URL (`https://acme-staging-v02.api.letsencrypt.org/directory`) for testing to avoid rate limits.
 
-## Terraform Configuration Files
+## Configuration Files
 
 | File | Description |
 |------|-------------|
@@ -98,7 +100,7 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
 | `variables.tf` | Variable definitions |
 | `outputs.tf` | Access URLs, resource names, monitoring IDs |
 
-## Azure Resources Created
+## Resources Created
 
 | Resource | Name |
 |----------|------|
