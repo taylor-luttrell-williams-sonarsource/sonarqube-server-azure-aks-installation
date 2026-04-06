@@ -9,7 +9,7 @@ Terraform templates for deploying SonarQube Server Enterprise Edition on Azure K
 | Container Orchestration | Azure Kubernetes Service (AKS) |
 | Database | Azure Database for PostgreSQL Flexible Server (v16, zone-redundant HA, private VNet access) |
 | HTTPS / Ingress | Azure Application Gateway (Standard_v2) |
-| TLS Certificate | Let's Encrypt via ACME — issued and renewed automatically |
+| TLS Certificate | Let's Encrypt via ACME - issued and renewed automatically |
 | Networking | Azure Virtual Network |
 | DNS | Azure DNS |
 | Monitoring | Azure Log Analytics + Application Insights |
@@ -17,9 +17,8 @@ Terraform templates for deploying SonarQube Server Enterprise Edition on Azure K
 
 ## Prerequisites
 
-- [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.5
+- [Terraform](https://developer.hashicorp.com/terraform/install)
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) authenticated (`az login`)
-- An Azure subscription
 - A SonarQube Server Enterprise Edition license key
 - A registered domain with an Azure DNS zone for SSL certificate and routing
 
