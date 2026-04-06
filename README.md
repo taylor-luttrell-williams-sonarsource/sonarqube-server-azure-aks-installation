@@ -2,7 +2,7 @@
 
 This repository contains Terraform templates for deploying SonarQube Server Enterprise Edition on Azure Kubernetes Service (AKS).
 
-## Infrastructure
+## Infrastructure Components
 
 | Component | Azure Service |
 |-----------|--------------|
@@ -81,7 +81,7 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
 - `sonarqube_chart_version` - leave empty for latest, or pin for reproducibility (e.g. `"2026.2.1"`)
 - `acme_server_url` is not shown above but can be added to switch certificate authorities. Default: Let's Encrypt production (`https://acme-v02.api.letsencrypt.org/directory`). Use the staging URL (`https://acme-staging-v02.api.letsencrypt.org/directory`) for testing to avoid rate limits.
 
-## Terraform Files
+## Terraform Configuration Files
 
 | File | Description |
 |------|-------------|
@@ -98,7 +98,7 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
 | `variables.tf` | Variable definitions |
 | `outputs.tf` | Access URLs, resource names, monitoring IDs |
 
-## Resources Created
+## Azure Resources Created
 
 | Resource | Name |
 |----------|------|
