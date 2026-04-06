@@ -29,7 +29,7 @@ resource "acme_certificate" "sonarqube" {
   key_type        = "2048"
 
   dns_challenge {
-    provider = "azure"
+    provider = "azuredns"
     config = {
       AZURE_SUBSCRIPTION_ID = data.azurerm_subscription.current.subscription_id
       AZURE_RESOURCE_GROUP  = var.dns_resource_group_name

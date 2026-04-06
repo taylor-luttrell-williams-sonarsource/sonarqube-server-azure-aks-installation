@@ -1,6 +1,6 @@
-# SonarQube Server Enterprise — Azure AKS Installation
+# SonarQube Server Enterprise Edition - Azure AKS Deployment
 
-Terraform templates for deploying SonarQube Server Enterprise Edition on Azure Kubernetes Service (AKS).
+This directory contains Terraform templates for deploying SonarQube Server Enterprise Edition on Azure Kubernetes Service (AKS).
 
 ## Infrastructure
 
@@ -17,9 +17,8 @@ Terraform templates for deploying SonarQube Server Enterprise Edition on Azure K
 
 ## Prerequisites
 
-- [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.5
+- [Terraform](https://developer.hashicorp.com/terraform/install)
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) authenticated (`az login`)
-- An Azure subscription
 - A SonarQube Server Enterprise Edition license key
 - A registered domain with an Azure DNS zone for SSL certificate and routing
 
@@ -27,20 +26,20 @@ Terraform templates for deploying SonarQube Server Enterprise Edition on Azure K
 
 ```bash
 cp terraform.tfvars.json.example terraform.tfvars.json
-# Edit terraform.tfvars.json with your values
+# Edit terraform.tfvars.json with your specific values
 
 terraform init
 terraform plan
 terraform apply
 ```
 
-Access SonarQube at `https://sonarqube.<your-domain>`. Default login: `admin` / `admin`.
+Access SonarQube at `https://sonarqube.<your-domain>`. Default login: `admin` / `admin` (change immediately)
 
-> **Certificate management is fully automated.** Terraform requests, validates, and installs a trusted Let's Encrypt certificate as part of `terraform apply`. No manual certificate steps are required — provide your domain and email, and the rest is handled automatically.
+> **Certificate management is fully automated.** Terraform requests, validates, and installs a trusted Let's Encrypt certificate as part of `terraform apply`. No manual certificate steps are required; simply provide your domain and email, and the rest is handled automatically.
 
 ## Configuration
 
-Copy `terraform.tfvars.json.example` to `terraform.tfvars.json` and update the values for your environment:
+Copy `terraform.tfvars.json.example` to `terraform.tfvars.json` and update the specific values for your environment:
 
 ### Required Variables
 
@@ -63,19 +62,19 @@ Copy `terraform.tfvars.json.example` to `terraform.tfvars.json` and update the v
 
 ### Optional Variables
 
-- `acme_server_url` — ACME directory URL for the certificate authority. Default: `"https://acme-v02.api.letsencrypt.org/directory"` (Let's Encrypt production). Use `"https://acme-staging-v02.api.letsencrypt.org/directory"` for testing to avoid rate limits.
-- `host_name` — Hostname prefix for the SonarQube URL (`host_name.domain_name`). Default: `"sonarqube"`
-- `system_node_vm_size` — VM SKU for the system node pool. Default: `"Standard_D2s_v5"`
-- `sonarqube_node_count` — Number of nodes in the SonarQube pool. Default: `1`
-- `postgresql_sku` — PostgreSQL compute tier. Default: `"GP_Standard_D4ds_v4"`
-- `postgresql_version` — PostgreSQL major version. Default: `"16"`
-- `postgresql_storage_mb` — PostgreSQL storage in MB. Default: `131072` (128 GB)
-- `sonarqube_chart_version` — SonarQube Helm chart version. Leave empty for latest, or pin for production (e.g., `"2026.2.1"`)
-- `sonarqube_namespace` — Kubernetes namespace for SonarQube. Default: `"sonarqube"`
-- `vnet_cidr` — VNet address space. Default: `"10.0.0.0/16"`
-- `aks_subnet_cidr` — AKS subnet CIDR. Default: `"10.0.1.0/24"`
-- `appgw_subnet_cidr` — Application Gateway subnet CIDR. Default: `"10.0.2.0/24"`
-- `postgresql_subnet_cidr` — PostgreSQL delegated subnet CIDR (minimum /28). Default: `"10.0.3.0/28"`
+- `acme_server_url` - ACME directory URL for the certificate authority. Default: `"https://acme-v02.api.letsencrypt.org/directory"` (Let's Encrypt production). Use `"https://acme-staging-v02.api.letsencrypt.org/directory"` for testing to avoid rate limits.
+- `host_name` - Hostname prefix for the SonarQube URL (`host_name.domain_name`). Default: `"sonarqube"`
+- `system_node_vm_size` - VM SKU for the system node pool. Default: `"Standard_D2s_v5"`
+- `sonarqube_node_count` - Number of nodes in the SonarQube pool. Default: `1`
+- `postgresql_sku` - PostgreSQL compute tier. Default: `"GP_Standard_D4ds_v4"`
+- `postgresql_version` - PostgreSQL major version. Default: `"16"`
+- `postgresql_storage_mb` - PostgreSQL storage in MB. Default: `131072` (128 GB)
+- `sonarqube_chart_version` - SonarQube Helm chart version. Leave empty for latest, or pin for production (e.g., `"2026.2.1"`)
+- `sonarqube_namespace` - Kubernetes namespace for SonarQube. Default: `"sonarqube"`
+- `vnet_cidr` - VNet address space. Default: `"10.0.0.0/16"`
+- `aks_subnet_cidr` - AKS subnet CIDR. Default: `"10.0.1.0/24"`
+- `appgw_subnet_cidr` - Application Gateway subnet CIDR. Default: `"10.0.2.0/24"`
+- `postgresql_subnet_cidr` - PostgreSQL delegated subnet CIDR (minimum /28). Default: `"10.0.3.0/28"`
 
 ## Terraform Files
 
