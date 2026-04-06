@@ -9,9 +9,5 @@
 terraform.tfvars.json
 terraform.tfvars
 
-# Internal project docs (not for public repo)
-context.md
-next-steps.md
-
 # OS
 .DS_Store

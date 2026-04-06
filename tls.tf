@@ -3,7 +3,7 @@
 #
 # Issues a trusted TLS certificate via the ACME protocol (Let's Encrypt
 # by default). Validates domain ownership using a DNS-01 challenge against
-# the existing Azure DNS zone — no manual steps required.
+# the existing Azure DNS zone, so no manual steps required.
 #
 # Provides a domain and Terraform handles the rest.
 # --------------------------------------------------------------------------
