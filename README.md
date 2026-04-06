@@ -1,6 +1,6 @@
-# SonarQube Server Enterprise — Azure AKS Installation
+# SonarQube Server Enterprise Edition - Azure AKS Installation
 
-Terraform templates for deploying SonarQube Server Enterprise Edition on Azure Kubernetes Service (AKS).
+This repository contains Terraform templates for deploying SonarQube Server Enterprise Edition on Azure Kubernetes Service (AKS).
 
 ## Infrastructure
 
@@ -26,20 +26,20 @@ Terraform templates for deploying SonarQube Server Enterprise Edition on Azure K
 
 ```bash
 cp terraform.tfvars.json.example terraform.tfvars.json
-# Edit terraform.tfvars.json with your values
+# Edit terraform.tfvars.json with your specific values
 
 terraform init
 terraform plan
 terraform apply
 ```
 
-Access SonarQube at `https://sonarqube.<your-domain>`. Default login: `admin` / `admin`.
+Access SonarQube at `https://sonarqube.<your-domain>`. Default login: `admin` / `admin` (change immediately).
 
 > **Certificate management is fully automated.** Terraform requests, validates, and installs a trusted Let's Encrypt certificate as part of `terraform apply`. No manual certificate steps are required - provide your domain and email, and the rest is handled automatically.
 
 ## Configuration
 
-Copy `terraform.tfvars.json.example` to `terraform.tfvars.json` and update the values for your environment:
+Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the specific values for your environment:
 
 ```json
 {
