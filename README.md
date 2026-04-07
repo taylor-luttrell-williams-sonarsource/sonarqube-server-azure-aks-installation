@@ -60,7 +60,7 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
   "host_name": "sonarqube",
 
   "cluster_name": "my-sonarqube-cluster",
-  "kubernetes_version": "1.32",
+  "kubernetes_version": "1.35",
   "system_node_vm_size": "Standard_D2s_v5",
   "node_vm_size": "Standard_D8ds_v5",
   "sonarqube_node_count": 1,
@@ -80,6 +80,7 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
 **Notes:**
 - Subnet CIDRs must not overlap with existing VNets in your Azure environment
 - `postgresql_subnet_cidr` requires a minimum /28 block
+- `sonarqube_node_count` — defaults to `1`. Node pools can scale to multiple nodes, but SonarQube Server Enterprise Edition runs as a single-replica StatefulSet so one dedicated node is the correct setup for this deployment.
 - `sonarqube_chart_version` - leave empty for latest, or pin for reproducibility (e.g. `"2026.2.1"`)
 - `acme_server_url` is not shown above but can be added to switch certificate authorities. Default: Let's Encrypt production (`https://acme-v02.api.letsencrypt.org/directory`). Use the staging URL (`https://acme-staging-v02.api.letsencrypt.org/directory`) for testing to avoid rate limits.
 
@@ -107,7 +108,8 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
 | Resource Group | `<resource_group_name>` |
 | Virtual Network + Subnets | `<cluster_name>-vnet` (AKS, App Gateway, PostgreSQL) |
 | AKS Cluster | `<cluster_name>` |
-| SonarQube Node Pool | `sonarqube` (Standard_D8ds_v5, tainted) |
+| System Node Pool | `system` (Standard_D2s_v5, 1 node) |
+| SonarQube Node Pool | `sonarqube` (Standard_D8ds_v5, 1 node, tainted) |
 | Application Gateway | `<cluster_name>-appgw` |
 | PostgreSQL Flexible Server | `<postgresql_server_name>` (v16, zone-redundant HA, private VNet access) |
 | PostgreSQL Database | `sonarqube` |

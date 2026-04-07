@@ -25,6 +25,7 @@ resource "azurerm_kubernetes_cluster" "sonarqube" {
     os_disk_size_gb             = 30
     vnet_subnet_id              = azurerm_subnet.aks.id
     temporary_name_for_rotation = "systemtmp"
+    orchestrator_version        = var.kubernetes_version
 
     node_labels = {
       "nodepool" = "system"
@@ -75,6 +76,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "sonarqube" {
   node_count            = var.sonarqube_node_count
   os_disk_size_gb       = 100
   vnet_subnet_id        = azurerm_subnet.aks.id
+  orchestrator_version  = var.kubernetes_version
 
   node_labels = {
     "sonarqube" = "true"

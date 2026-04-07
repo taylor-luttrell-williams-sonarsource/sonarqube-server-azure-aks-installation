@@ -14,7 +14,7 @@
   "host_name": "sonarqube",
 
   "cluster_name": "my-sonarqube-cluster",
-  "kubernetes_version": "1.32",
+  "kubernetes_version": "1.35",
   "system_node_vm_size": "Standard_D2s_v5",
   "node_vm_size": "Standard_D8ds_v5",
   "sonarqube_node_count": 1,
