@@ -80,7 +80,7 @@ Copy `terraform.tfvars.json.example` into `terraform.tfvars.json` and update the
 **Notes:**
 - Subnet CIDRs must not overlap with existing VNets in your Azure environment
 - `postgresql_subnet_cidr` requires a minimum /28 block
-- `sonarqube_node_count` — defaults to `1`. Node pools can scale to multiple nodes, but SonarQube Server Enterprise Edition runs as a single-replica StatefulSet so one dedicated node is the correct setup for this deployment.
+- `sonarqube_node_count` - defaults to `1`. Node pools can scale to multiple nodes, but SonarQube Server Enterprise Edition runs as a single-replica StatefulSet so one dedicated node is the correct setup for this deployment.
 - `sonarqube_chart_version` - leave empty for latest, or pin for reproducibility (e.g. `"2026.2.1"`)
 - `acme_server_url` is not shown above but can be added to switch certificate authorities. Default: Let's Encrypt production (`https://acme-v02.api.letsencrypt.org/directory`). Use the staging URL (`https://acme-staging-v02.api.letsencrypt.org/directory`) for testing to avoid rate limits.
 
